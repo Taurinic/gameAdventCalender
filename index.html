@@ -7,18 +7,21 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f8f8f8;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background-image: url('your-anime-background-image.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
         .container {
             max-width: 800px;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.8); /* Adjust background color opacity as needed */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -49,6 +52,7 @@
 
         .game-card.revealed {
             background-color: #2ecc71;
+            pointer-events: none; /* Disable further clicks on revealed cards */
         }
 
         .game-card:hover {
@@ -67,36 +71,7 @@
 
             // List of PS3 games
             const ps3Games = [
-                "Uncharted 2: Among Thieves",
-                "The Last of Us",
-                "Metal Gear Solid 4: Guns of the Patriots",
-                "Demon's Souls",
-                "Red Dead Redemption",
-                "Batman: Arkham City",
-                "BioShock Infinite",
-                "Dark Souls",
-                "Grand Theft Auto V",
-                "Journey",
-                "LittleBigPlanet",
-                "Mass Effect 2",
-                "Ni no Kuni: Wrath of the White Witch",
-                "Persona 5",
-                "Ratchet & Clank: A Crack in Time",
-                "Resistance 3",
-                "Shadow of the Colossus",
-                "Sly Cooper: Thieves in Time",
-                "The Elder Scrolls V: Skyrim",
-                "Valkyria Chronicles",
-                "Dead Space",
-                "Infamous 2",
-                "Mirror's Edge",
-                "Dragon's Crown",
-                "Nier",
-                "God of War III",
-                "Uncharted 3: Drake's Deception",
-                "Final Fantasy XIII",
-                "Borderlands 2",
-                "Assassin's Creed II",
+                // ... (your game list here)
             ];
 
             // Shuffle the games array for randomness
@@ -110,8 +85,10 @@
                 gameCard.textContent = `Day ${day}`;
 
                 gameCard.addEventListener("click", function () {
-                    this.textContent = `Day ${this.dataset.day}: ${ps3Games[this.dataset.day - 1]}`;
-                    this.classList.add("revealed");
+                    if (!this.classList.contains("revealed")) {
+                        this.textContent = `Day ${this.dataset.day}: ${ps3Games[this.dataset.day - 1]}`;
+                        this.classList.add("revealed");
+                    }
                 });
 
                 calendar.appendChild(gameCard);
@@ -120,3 +97,4 @@
     </script>
 </body>
 </html>
+
