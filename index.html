@@ -13,7 +13,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-image: url('your-anime-background-image.jpg'); /* Replace with your image URL */
+            background-image: url('your-background-image.jpg'); /* Replace with your image URL */
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
@@ -51,10 +51,13 @@
 
         .container {
             max-width: 800px;
-            background-color: rgba(255, 255, 255, 0.8); /* Adjust background color opacity as needed */
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
@@ -82,7 +85,7 @@
 
         .game-card.revealed {
             background-color: #2ecc71;
-            pointer-events: none; /* Disable further clicks on revealed cards */
+            pointer-events: none;
         }
 
         .game-card:hover {
@@ -97,6 +100,16 @@
                 transform: scale(1.1);
             }
         }
+
+        .love-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: #e74c3c;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -107,13 +120,11 @@
     <div class="container">
         <h1>PS3 Game Advent Calendar</h1>
         <div id="calendar"></div>
+        <div class="love-message">I love you!</div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const calendar = document.getElementById("calendar");
-
-            // List of PS3 games
-           
             const ps3Games = [
                 "Uncharted 2: Among Thieves",
                 "The Last of Us",
@@ -146,25 +157,18 @@
                 "Borderlands 2",
                 "Assassin's Creed II",
             ];
-          
-
-            // Shuffle the games array for randomness
             ps3Games.sort(() => Math.random() - 0.5);
-
-            // Display a game for each day
             for (let day = 1; day <= 30; day++) {
                 const gameCard = document.createElement("div");
                 gameCard.classList.add("game-card");
                 gameCard.dataset.day = day;
                 gameCard.textContent = `Day ${day}`;
-
                 gameCard.addEventListener("click", function () {
                     if (!this.classList.contains("revealed")) {
                         this.textContent = `Day ${this.dataset.day}: ${ps3Games[this.dataset.day - 1]}`;
                         this.classList.add("revealed");
                     }
                 });
-
                 calendar.appendChild(gameCard);
             }
         });
