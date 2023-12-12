@@ -36,19 +36,6 @@
             text-align: center;
         }
 
-        #reveal-all,
-        #reveal-day {
-            margin-top: 20px;
-            background-color: #27ae60;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            margin-right: 10px;
-        }
-
         #calendar {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -72,18 +59,12 @@
             pointer-events: none;
         }
 
-        .game-card.locked {
-            background-color: #e74c3c;
-            pointer-events: none;
-        }
-
         .game-card:hover {
             background-color: #2980b9;
         }
 
         @keyframes heartbeat {
-            0%,
-            100% {
+            0%, 100% {
                 transform: scale(1);
             }
 
@@ -104,27 +85,23 @@
 <body>
     <div class="container">
         <h1>PS3 Game Advent Calendar 4 Bryher</h1>
-        <button id="reveal-all">Reveal All Days</button>
-        <button id="reveal-day">Reveal Day</button>
         <div id="calendar"></div>
         <div class="love-message">I love you!</div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const calendar = document.getElementById("calendar");
-            const revealAllButton = document.getElementById("reveal-all");
-            const revealDayButton = document.getElementById("reveal-day");
 
             const ps3Games = [
                 "Uncharted 2: Among Thieves",
                 "SleepingDogs",
-                "Dishonered",
+                "Dishonored",
                 "Dead Rising 3",
                 "Red Dead Redemption",
                 "Batman: Arkham City",
                 "BioShock Infinite",
                 "Dark Souls",
-                "enslaved Oydessey",
+                "Enslaved: Odyssey to the West",
                 "Heavy Rain",
                 "LittleBigPlanet",
                 "Mass Effect 2",
@@ -139,7 +116,7 @@
                 "Dead Space",
                 "Infamous 2",
                 "Mirror's Edge",
-                "Assasins Creed BrotherHood",
+                "Assassin's Creed Brotherhood",
                 "Nier",
                 "God of War III",
                 "Uncharted 3: Drake's Deception",
@@ -149,47 +126,19 @@
             ];
             ps3Games.sort(() => Math.random() - 0.5);
 
-            let currentDay = 1;
-
             for (let day = 1; day <= 30; day++) {
                 const gameCard = document.createElement("div");
                 gameCard.classList.add("game-card");
                 gameCard.dataset.day = day;
                 gameCard.textContent = `Day ${day}`;
-                if (day === 1) {
-                    gameCard.classList.add("revealed");
-                    gameCard.textContent = `Day ${day}: ${ps3Games[day - 1]}`;
-                } else {
-                    gameCard.classList.add("locked");
-                }
                 gameCard.addEventListener("click", function () {
-                    if (!this.classList.contains("revealed") && !this.classList.contains("locked")) {
+                    if (!this.classList.contains("revealed")) {
                         this.textContent = `Day ${this.dataset.day}: ${ps3Games[this.dataset.day - 1]}`;
                         this.classList.add("revealed");
-                        currentDay++;
                     }
                 });
                 calendar.appendChild(gameCard);
             }
-
-            revealAllButton.addEventListener("click", function () {
-                const lockedCards = document.querySelectorAll(".game-card.locked");
-                lockedCards.forEach(card => {
-                    card.textContent = `Day ${card.dataset.day}: ${ps3Games[card.dataset.day - 1]}`;
-                    card.classList.remove("locked");
-                    card.classList.add("revealed");
-                });
-            });
-
-            revealDayButton.addEventListener("click", function () {
-                const lockedCard = document.querySelector(`.game-card.locked[data-day="${currentDay}"]`);
-                if (lockedCard) {
-                    lockedCard.textContent = `Day ${currentDay}: ${ps3Games[currentDay - 1]}`;
-                    lockedCard.classList.remove("locked");
-                    lockedCard.classList.add("revealed");
-                    currentDay++;
-                }
-            });
         });
     </script>
 </body>
