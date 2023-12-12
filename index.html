@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,14 +89,21 @@
             pointer-events: none;
         }
 
+        .game-card.locked {
+            background-color: #e74c3c;
+            pointer-events: none;
+        }
+
         .game-card:hover {
             background-color: #2980b9;
         }
 
         @keyframes heartbeat {
-            0%, 100% {
+            0%,
+            100% {
                 transform: scale(1);
             }
+
             50% {
                 transform: scale(1.1);
             }
@@ -112,6 +120,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="hearts">
         <div class="heart"></div>
@@ -163,8 +172,14 @@
                 gameCard.classList.add("game-card");
                 gameCard.dataset.day = day;
                 gameCard.textContent = `Day ${day}`;
+                if (day === 1) {
+                    gameCard.classList.add("revealed");
+                    gameCard.textContent = `Day ${day}: ${ps3Games[day - 1]}`;
+                } else {
+                    gameCard.classList.add("locked");
+                }
                 gameCard.addEventListener("click", function () {
-                    if (!this.classList.contains("revealed")) {
+                    if (!this.classList.contains("revealed") && !this.classList.contains("locked")) {
                         this.textContent = `Day ${this.dataset.day}: ${ps3Games[this.dataset.day - 1]}`;
                         this.classList.add("revealed");
                     }
@@ -174,4 +189,5 @@
         });
     </script>
 </body>
+
 </html>
