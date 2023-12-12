@@ -85,25 +85,6 @@
             font-weight: bold;
             margin-top: 50px;
         }
-
-        #question-container {
-            margin-top: 20px;
-        }
-
-        #question-input {
-            padding: 8px;
-            margin-right: 10px;
-        }
-
-        #submit-btn {
-            padding: 8px 16px;
-            cursor: pointer;
-            background-color: #2ecc71;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 1em;
-        }
     </style>
 </head>
 
@@ -111,22 +92,13 @@
     <div class="container">
         <h1>PS3 Game Advent Calendar</h1>
         <div id="calendar"></div>
-        <div id="question-container">
-            <label for="question-input">Answer the question:</label>
-            <input type="text" id="question-input" placeholder="Your answer...">
-            <button id="submit-btn">Submit</button>
-        </div>
-        <div class="love-message" id="love-message"></div>
+        <div class="love-message">I love you!</div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const calendar = document.getElementById("calendar");
-            const loveMessage = document.getElementById("love-message");
-            const questionInput = document.getElementById("question-input");
-            const submitBtn = document.getElementById("submit-btn");
-
             const ps3Games = [
-              "Uncharted 2: Among Thieves",
+                "Uncharted 2: Among Thieves",
                 "The Last of Us",
                 "Metal Gear Solid 4: Guns of the Patriots",
                 "Demon's Souls",
@@ -157,48 +129,7 @@
                 "Borderlands 2",
                 "Assassin's Creed II",
             ];
-
-            // Shuffle the games
             ps3Games.sort(() => Math.random() - 0.5);
-
-            let currentDay = 1;
-
-            function showLoveMessage(message) {
-                loveMessage.textContent = message;
-                setTimeout(() => {
-                    loveMessage.textContent = "";
-                }, 3000);
-            }
-
-            function unlockDay() {
-                const gameCard = document.querySelector(`.game-card[data-day="${currentDay}"]`);
-                if (gameCard) {
-                    gameCard.classList.remove("locked");
-                    gameCard.classList.add("revealed");
-                }
-            }
-
-            function handleAnswerSubmission() {
-                const userAnswer = questionInput.value.toLowerCase();
-                const correctAnswer = getCorrectAnswer(); // You need to implement this function
-
-                if (userAnswer === correctAnswer) {
-                    showLoveMessage("Correct! Day unlocked!");
-                    unlockDay();
-                    currentDay++;
-                    questionInput.value = "";
-                } else {
-                    showLoveMessage("Incorrect. Try again!");
-                }
-            }
-
-            submitBtn.addEventListener("click", handleAnswerSubmission);
-
-            function getCorrectAnswer() {
-                // You need to implement this function to return the correct answer for the current day
-                return ps3Games[currentDay - 1].toLowerCase();
-            }
-
             for (let day = 1; day <= 30; day++) {
                 const gameCard = document.createElement("div");
                 gameCard.classList.add("game-card");
@@ -210,6 +141,12 @@
                 } else {
                     gameCard.classList.add("locked");
                 }
+                gameCard.addEventListener("click", function () {
+                    if (!this.classList.contains("revealed") && !this.classList.contains("locked")) {
+                        this.textContent = `Day ${this.dataset.day}: ${ps3Games[this.dataset.day - 1]}`;
+                        this.classList.add("revealed");
+                    }
+                });
                 calendar.appendChild(gameCard);
             }
         });
