@@ -36,6 +36,19 @@
             text-align: center;
         }
 
+        #reveal-all,
+        #reveal-day {
+            margin-top: 20px;
+            background-color: #27ae60;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
         #calendar {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -91,12 +104,17 @@
 <body>
     <div class="container">
         <h1>PS3 Game Advent Calendar 4 Bryher</h1>
+        <button id="reveal-all">Reveal All Days</button>
+        <button id="reveal-day">Reveal Day</button>
         <div id="calendar"></div>
         <div class="love-message">I love you!</div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const calendar = document.getElementById("calendar");
+            const revealAllButton = document.getElementById("reveal-all");
+            const revealDayButton = document.getElementById("reveal-day");
+
             const ps3Games = [
                 "Uncharted 2: Among Thieves",
                 "The Last of Us",
@@ -130,6 +148,9 @@
                 "Assassin's Creed II",
             ];
             ps3Games.sort(() => Math.random() - 0.5);
+
+            let currentDay = 1;
+
             for (let day = 1; day <= 30; day++) {
                 const gameCard = document.createElement("div");
                 gameCard.classList.add("game-card");
@@ -145,10 +166,30 @@
                     if (!this.classList.contains("revealed") && !this.classList.contains("locked")) {
                         this.textContent = `Day ${this.dataset.day}: ${ps3Games[this.dataset.day - 1]}`;
                         this.classList.add("revealed");
+                        currentDay++;
                     }
                 });
                 calendar.appendChild(gameCard);
             }
+
+            revealAllButton.addEventListener("click", function () {
+                const lockedCards = document.querySelectorAll(".game-card.locked");
+                lockedCards.forEach(card => {
+                    card.textContent = `Day ${card.dataset.day}: ${ps3Games[card.dataset.day - 1]}`;
+                    card.classList.remove("locked");
+                    card.classList.add("revealed");
+                });
+            });
+
+            revealDayButton.addEventListener("click", function () {
+                const lockedCard = document.querySelector(`.game-card.locked[data-day="${currentDay}"]`);
+                if (lockedCard) {
+                    lockedCard.textContent = `Day ${currentDay}: ${ps3Games[currentDay - 1]}`;
+                    lockedCard.classList.remove("locked");
+                    lockedCard.classList.add("revealed");
+                    currentDay++;
+                }
+            });
         });
     </script>
 </body>
